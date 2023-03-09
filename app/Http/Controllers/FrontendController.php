@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -168,6 +169,29 @@ class FrontendController extends Controller
                 'amount' => $updated_quantity
             ]);
         }
+        return back();
+    }
+    function checkout()
+    {
+        if(strpos(url()->previous(), "cart") || strpos(url()->previous(), "checkout")){
+            $addresses = Address::where('user_id', auth()->id())->get();
+            return view('checkout', compact('addresses'));
+        }
+        else{
+            abort(404);
+        }
+    }
+    function add_address(Request $request)
+    {
+        Address::insert([
+            'user_id' => auth()->id(),
+            'label' => $request->label,
+            'customer_name' => $request->customer_name,
+            'full_address' => $request->full_address,
+            'zip_code' => $request->zip_code,
+            'phone_number' => $request->phone_number,
+            'created_at' => Carbon::now()
+        ]);
         return back();
     }
 }
