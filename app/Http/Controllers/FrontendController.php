@@ -10,6 +10,7 @@ use App\Models\Color;
 use App\Models\Coupon;
 use App\Models\Featured_photo;
 use App\Models\Inventory;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -193,5 +194,46 @@ class FrontendController extends Controller
             'created_at' => Carbon::now()
         ]);
         return back();
+    }
+    function checkout_final(Request $request)
+    {
+        // return session('s_coupon_name');
+        // return session('s_coupon_discount_percent');
+        // return session('s_coupon_discount_amount');
+        // return session('s_subtotal');
+        // return session('s_total');
+        // return auth()->id();
+        if($request->delivery_option == 1){
+            $delivery_charge = 60;
+        }else{
+            $delivery_charge = 120;
+        }
+        if($request->payment_option == 'cod'){
+            // insert into invoice table start
+            $invoice_id = Invoice::insertGetId([
+                'user_id'=> auth()->id(),
+                'address_id'=> $request->address_id,
+                'coupon_name'=> session('s_coupon_name'),
+                'coupon_discount_percent'=> session('s_coupon_discount_percent'),
+                'coupon_discount_amount'=> session('s_coupon_discount_amount'),
+                'subtotal'=> session('s_subtotal'),
+                'total'=> session('s_total'),
+                'delivery_option'=> $request->delivery_option,
+                'delivery_charge'=> $delivery_charge,
+                'payment_option'=> $request->payment_option,
+                'created_at' => Carbon::now()
+            ]);
+            // insert into invoice table end
+
+            //if coupon used then minus 1 start
+            if(session('s_coupon_name')){
+                Coupon::where('coupon_name', session('s_coupon_name'))->decrement('coupon_limit');
+            }
+            //if coupon used then minus 1 end
+
+            echo $invoice_id;
+        }else{
+            echo "online payment";
+        }
     }
 }

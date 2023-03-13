@@ -206,7 +206,7 @@
                             </li>
                             <li>
                                 <h4>Subtotal</h4>
-                                <h4 class="price">{{ $cart_total }}</h4>
+                                <h4 class="price">{{ ceil($cart_total) }}</h4>
                             </li>
                             <li class="align-items-start">
                                 <h4>Coupon Discount (%)</h4>
@@ -214,15 +214,22 @@
                             </li>
                             <li class="align-items-start">
                                 <h4>Coupon Discount (-)</h4>
-                                <h4 class="price text-end">{{ ($discount/100)*$cart_total }}</h4>
+                                <h4 class="price text-end">{{ floor(($discount/100)*$cart_total) }}</h4>
                             </li>
+                            @php
+                                session(['s_coupon_name' => $coupon_name]);
+                                session(['s_subtotal' => ceil($cart_total)]);
+                                session(['s_coupon_discount_percent' => $discount]);
+                                session(['s_coupon_discount_amount' => floor((($discount/100)*$cart_total)) ]);
+                                session(['s_total' => (ceil($cart_total) - floor((($discount/100)*$cart_total)))]);
+                            @endphp
                         </ul>
                     </div>
 
                     <ul class="summery-total">
                         <li class="list-total border-top-0">
                             <h4>Total</h4>
-                            <h4 class="price theme-color">{{ $cart_total - (($discount/100)*$cart_total) }}</h4>
+                            <h4 class="price theme-color">{{ ceil($cart_total) - floor((($discount/100)*$cart_total)) }}</h4>
                         </li>
                     </ul>
 

@@ -42,6 +42,7 @@ Route::get('about', [FrontendController::class, 'about'])->name('about');
 Route::get('shop/{category_id}', [FrontendController::class, 'shop'])->name('shop');
 Route::get('checkout', [FrontendController::class, 'checkout'])->name('checkout');
 Route::post('add/address', [FrontendController::class, 'add_address'])->name('add.address');
+Route::post('checkout/final', [FrontendController::class, 'checkout_final'])->name('checkout.final');
 Route::get('contact', [FrontendController::class, 'contact'])->name('contact');
 
 Route::get('user', [UserController::class, 'index']);
