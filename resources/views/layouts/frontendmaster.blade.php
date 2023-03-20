@@ -603,8 +603,7 @@
                 </div>
 
                 <div class="payment">
-                    <img src="{{ asset('frontend_assets/assets') }}/images/payment/1.png" class="blur-up lazyload"
-                        alt="">
+                    <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img style="width:300px;height:auto;" src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-05.png" /></a>
                 </div>
 
                 <div class="social-link">

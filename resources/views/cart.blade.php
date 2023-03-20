@@ -27,7 +27,13 @@
 
 <!-- Cart Section Start -->
 <section class="cart-section section-b-space">
+
     <div class="container-fluid-lg">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row g-sm-5 g-3">
             <div class="col-xxl-9">
                 <style>

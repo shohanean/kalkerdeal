@@ -11,12 +11,14 @@ use App\Models\Coupon;
 use App\Models\Featured_photo;
 use App\Models\Inventory;
 use App\Models\Invoice;
+use App\Models\Invoice_detail;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeUnitReverseLookup\Wizard;
+use Illuminate\Support\Str;
 
 class FrontendController extends Controller
 {
@@ -203,6 +205,7 @@ class FrontendController extends Controller
         // return session('s_subtotal');
         // return session('s_total');
         // return auth()->id();
+        $invoice_no = Carbon::now()->format('Y')."-". Carbon::now()->format('m')."-".Str::upper(Str::random(5));
         if($request->delivery_option == 1){
             $delivery_charge = 60;
         }else{
@@ -211,6 +214,7 @@ class FrontendController extends Controller
         if($request->payment_option == 'cod'){
             // insert into invoice table start
             $invoice_id = Invoice::insertGetId([
+                'invoice_no'=> $invoice_no,
                 'user_id'=> auth()->id(),
                 'address_id'=> $request->address_id,
                 'coupon_name'=> session('s_coupon_name'),
@@ -230,8 +234,39 @@ class FrontendController extends Controller
                 Coupon::where('coupon_name', session('s_coupon_name'))->decrement('coupon_limit');
             }
             //if coupon used then minus 1 end
+            // store all products information to the invoice_details table start
+            foreach (carts() as $cart) {
+                Invoice_detail::insert([
+                    'invoice_id' => $invoice_id,
+                    'user_id' => $cart->user_id,
+                    'product_id' => $cart->product_id,
+                    'size_id' => $cart->size_id,
+                    'color_id' => $cart->color_id,
+                    'amount' => $cart->amount,
+                    'purchase_price' => Product::find($cart->product_id)->discounted_price,
+                    'created_at' => Carbon::now()
+                ]);
+                // decrement from inventory start
+                Inventory::where([
+                    'product_id' => $cart->product_id,
+                    'size_id' => $cart->size_id,
+                    'color_id' => $cart->color_id
+                ])->decrement('quantity', $cart->amount);
+                // decrement from inventory end
 
-            echo $invoice_id;
+                //cart remove start
+                $cart->delete();
+                //cart remove end
+            }
+            // store all products information to the invoice_details table end
+            // session value clear start
+            session()->forget('s_coupon_name');
+            session()->forget('s_coupon_discount_percent');
+            session()->forget('s_coupon_discount_amount');
+            session()->forget('s_subtotal');
+            session()->forget('s_total');
+            // session value clear end
+            return redirect('cart')->with('success', 'Your Order Submitted as Cash on Delivery successfully!');
         }else{
             echo "online payment";
         }
