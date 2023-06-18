@@ -72,7 +72,7 @@
     <section class="banner-section ratio_60 wow fadeInUp">
         <div class="container-fluid-lg">
             <div class="banner-slider">
-                @for ($i=1;$i<=4;$i++)
+                @for ($i = 1; $i <= 4; $i++)
                     <div>
                         <div class="banner-contain hover-effect">
                             <img src="{{ asset('frontend_assets/assets') }}/images/vegetable/banner/4.jpg"
@@ -103,17 +103,17 @@
                         <div class="category-menu">
                             <h3>Category</h3>
                             <ul>
-                               @foreach ($categories as $category)
-                                 <li>
-                                     <div class="category-list">
-                                         <img src="{{ asset("uploads/category_thumbnails") }}/{{ $category->category_thumbnail }}"
-                                             class="blur-up lazyload" alt="">
-                                         <h5>
-                                             <a href="shop-left-sidebar.html">{{ $category->name }}</a>
-                                         </h5>
-                                     </div>
-                                 </li>
-                               @endforeach
+                                @foreach ($categories as $category)
+                                    <li>
+                                        <div class="category-list">
+                                            <img src="{{ asset('uploads/category_thumbnails') }}/{{ $category->category_thumbnail }}"
+                                                class="blur-up lazyload" alt="">
+                                            <h5>
+                                                <a href="shop-left-sidebar.html">{{ $category->name }}</a>
+                                            </h5>
+                                        </div>
+                                    </li>
+                                @endforeach
                             </ul>
 
                             <ul class="value-list">
@@ -300,51 +300,19 @@
                             </span>
                             <p>Don't miss this opportunity at a special discount just for this week.</p>
                         </div>
-                        {{-- <div class="timing-box">
-                            <div class="timing">
-                                <i data-feather="clock"></i>
-                                <h6 class="name">Expires in :</h6>
-                                <div class="time" id="clockdiv-1" data-hours="1" data-minutes="2"
-                                    data-seconds="3">
-                                    <ul>
-                                        <li>
-                                            <div class="counter">
-                                                <div class="days">
-                                                    <h6></h6>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter">
-                                                <div class="hours">
-                                                    <h6></h6>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter">
-                                                <div class="minutes">
-                                                    <h6></h6>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter">
-                                                <div class="seconds">
-                                                    <h6></h6>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                        <div class="timing-box">
+                            <a href="{{ route('shop', 'all') }}">
+                                <div class="timing">
+                                    <h6 class="name">Show All</h6>
                                 </div>
-                            </div>
-                        </div> --}}
+                            </a>
+                        </div>
                     </div>
 
                     <div class="section-b-space">
                         <div class="product-border border-row overflow-hidden">
                             <div class="row m-0">
-                                @foreach ($products as $product)
+                                @foreach ($products->take(4) as $product)
                                     <div class="col-3 px-0">
                                         <div class="product-box">
                                             @if ($product->discount > 0)
@@ -353,26 +321,25 @@
                                                 </div>
                                             @else
                                                 @if ($product->created_at->diffInDays(now()) < 7)
-                                                <div class="badge bg-success">
-                                                    <h3>New</h3>
-                                                </div>
+                                                    <div class="badge bg-success">
+                                                        <h3>New</h3>
+                                                    </div>
                                                 @endif
                                             @endif
                                             <div class="product-image">
                                                 <a href="{{ route('product.details', $product->id) }}">
-                                                    <img src="{{ asset('uploads/product_thumbnails') }}/{{ $product->product_thumbnail }}" class="img-fluid blur-up lazyload" alt="">
+                                                    <img src="{{ asset('uploads/product_thumbnails') }}/{{ $product->product_thumbnail }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -392,7 +359,8 @@
                                                 </a>
 
                                                 <h5 class="sold text-content">
-                                                    <span class="theme-color price">{{ $product->discounted_price }}</span>
+                                                    <span
+                                                        class="theme-color price">{{ $product->discounted_price }}</span>
                                                     @if ($product->discount > 0)
                                                         <del>{{ $product->regular_price }}</del>
                                                     @endif
@@ -400,27 +368,18 @@
 
                                                 <div class="product-rating mt-sm-2 mt-1">
                                                     <ul class="rating">
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
+                                                        @for ($i = 1; $i <= stars($product->id); $i++)
+                                                            <li>
+                                                                <i data-feather="star" class="fill"></i>
+                                                            </li>
+                                                        @endfor
                                                     </ul>
                                                     <h6 class="theme-color">In Stock</h6>
                                                 </div>
 
                                                 <div class="add-to-cart-box">
-                                                    <a href="{{ route('product.details', $product->id) }}" class="btn btn-add-cart addcart-button">
+                                                    <a href="{{ route('product.details', $product->id) }}"
+                                                        class="btn btn-add-cart addcart-button">
                                                         Details
                                                     </a>
                                                 </div>
@@ -447,7 +406,7 @@
                             <div>
                                 <a href="shop-left-sidebar.html" class="category-box category-dark">
                                     <div>
-                                        <img src="{{ asset("uploads/category_thumbnails") }}/{{ $category->category_thumbnail }}"
+                                        <img src="{{ asset('uploads/category_thumbnails') }}/{{ $category->category_thumbnail }}"
                                             class="blur-up lazyload" alt="{{ $category->name }} ">
                                         <h5>{{ $category->name }}</h5>
                                     </div>
@@ -513,16 +472,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -605,16 +562,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -697,16 +652,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -789,16 +742,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -881,16 +832,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>
@@ -973,16 +922,14 @@
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                         <a href="javascript:void(0)" data-bs-toggle="modal"
                                                             data-bs-target="#view">
                                                             <i data-feather="eye"></i>
                                                         </a>
                                                     </li>
 
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
                                                         <a href="compare.html">
                                                             <i data-feather="refresh-cw"></i>
                                                         </a>

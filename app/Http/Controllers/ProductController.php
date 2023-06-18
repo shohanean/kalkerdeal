@@ -48,11 +48,10 @@ class ProductController extends Controller
         $request->validate([
             'product_featured_photos.*' => 'required|image'
         ]);
-        if($request->discount){
+        if ($request->discount) {
             $discount = $request->discount;
             $discounted_price = $request->regular_price - ($request->regular_price * ($request->discount / 100));
-        }
-        else{
+        } else {
             $discount = 0;
             $discounted_price = $request->regular_price;
         }
@@ -93,24 +92,24 @@ class ProductController extends Controller
         //database update end
 
         //featured photo upload starts
-            foreach ($request->product_featured_photos as $product_featured_photo) {
-                $new_name = $product_id."-".Str::lower(Str::random(20)) . "." . $product_featured_photo->extension();
-                $photo_path = 'uploads/product_featured_photos/' . $new_name;
+        foreach ($request->product_featured_photos as $product_featured_photo) {
+            $new_name = $product_id . "-" . Str::lower(Str::random(20)) . "." . $product_featured_photo->extension();
+            $photo_path = 'uploads/product_featured_photos/' . $new_name;
 
-                Image::make($product_featured_photo)->text('Kalkerdeal', 10, 20, function ($font) {
-                    $font->size(500);
-                    $font->color([255, 255, 255, 1]);
-                    $font->align('center');
-                    $font->valign('top');
-                    $font->angle(45);
-                })->resize(750, 750)->save($photo_path);
+            Image::make($product_featured_photo)->text('Kalkerdeal', 10, 20, function ($font) {
+                $font->size(500);
+                $font->color([255, 255, 255, 1]);
+                $font->align('center');
+                $font->valign('top');
+                $font->angle(45);
+            })->resize(750, 750)->save($photo_path);
 
-                Featured_photo::insert([
-                    'product_id' => $product_id,
-                    'featured_photo_name' => $new_name,
-                    'created_at' => Carbon::now()
-                ]);
-            }
+            Featured_photo::insert([
+                'product_id' => $product_id,
+                'featured_photo_name' => $new_name,
+                'created_at' => Carbon::now()
+            ]);
+        }
         //featured photo upload ends
         return back()->withSuccess('Product Uploaded Successfully!');
     }
@@ -160,27 +159,28 @@ class ProductController extends Controller
         //
     }
 
-    public function add_inventory($id){
+    public function add_inventory($id)
+    {
         $product = Product::find($id);
         $sizes = Size::all();
         $colors = Color::all();
         $inventories = Inventory::where('product_id', $id)->with('relationshiptosize', 'relationshiptocolor')->get();
         return view('backend.product.add_inventory', compact('product', 'sizes', 'colors', 'inventories'));
     }
-    public function insert_inventory($id, Request $request){
-        if(Inventory::where([
+    public function insert_inventory($id, Request $request)
+    {
+        if (Inventory::where([
             'product_id' => $id,
             'size_id' => $request->size_id,
             'color_id' => $request->color_id,
-        ])->exists()){
+        ])->exists()) {
 
             Inventory::where([
                 'product_id' => $id,
                 'size_id' => $request->size_id,
                 'color_id' => $request->color_id,
             ])->increment('quantity', $request->quantity);
-
-        }else{
+        } else {
             Inventory::insert([
                 'product_id' => $id,
                 'size_id' => $request->size_id,

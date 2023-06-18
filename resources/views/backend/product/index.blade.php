@@ -24,6 +24,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL. No</th>
+                                            <th>Barcode</th>
                                             <th>Category Name</th>
                                             <th>Product Thumbnail</th>
                                             <th>Product Name</th>
@@ -36,6 +37,9 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>
+                                                    {!! DNS2D::getBarcodeHTML($product->relationshipwithcategory->name, 'QRCODE') !!}
+                                                </td>
+                                                <td>
                                                     {{ $product->relationshipwithcategory->name }}
                                                     <p>
                                                         <a href="">{{ $product->relationshipwithcategory->slug }}</a>
@@ -43,11 +47,14 @@
                                                     {{-- {{ App\Models\Category::find($product->category_id)->name }} --}}
                                                 </td>
                                                 <td>
-                                                    <img width="100" src="{{ asset('uploads/product_thumbnails') }}/{{ $product->product_thumbnail }}" alt="not found">
+                                                    <img width="100"
+                                                        src="{{ asset('uploads/product_thumbnails') }}/{{ $product->product_thumbnail }}"
+                                                        alt="not found">
                                                 </td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>
-                                                    <a href="{{ route('add.inventory', $product->id) }}" class="btn btn-sm btn-danger">
+                                                    <a href="{{ route('add.inventory', $product->id) }}"
+                                                        class="btn btn-sm btn-danger">
                                                         Add Inventory
                                                     </a>
                                                 </td>
@@ -73,27 +80,27 @@
 @endsection
 
 @section('footer_scripts')
-<script>
-    $(document).ready(function(){
-        $('#product_table').DataTable();
-        $('#product_table').on('click', '.product_delete_btn', function(){
-            var link = $(this).val();
-            // sweetaleart code start
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonColor: '#3085d6',
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Delete'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = link;
-                }
-            })
-            // sweetaleart code end
+    <script>
+        $(document).ready(function() {
+            $('#product_table').DataTable();
+            $('#product_table').on('click', '.product_delete_btn', function() {
+                var link = $(this).val();
+                // sweetaleart code start
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Delete'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = link;
+                    }
+                })
+                // sweetaleart code end
+            });
         });
-    });
-</script>
+    </script>
 @endsection

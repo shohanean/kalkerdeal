@@ -114,19 +114,21 @@
                                 </span>
                             </button>
                             <a href="{{ route('index') }}" class="web-logo nav-logo">
-                                <img src="{{ asset('frontend_assets/assets') }}/images/logo/1.png" class="img-fluid blur-up lazyload" alt="not found">
+                                <img src="{{ asset('frontend_assets/assets') }}/images/logo/1.png"
+                                    class="img-fluid blur-up lazyload" alt="not found">
                             </a>
                             <div class="middle-box">
-
-
                                 <div class="search-box">
-                                    <div class="input-group">
-                                        <input type="search" class="form-control" placeholder="I'm searching for..."
-                                            aria-label="Recipient's username" aria-describedby="button-addon2">
-                                        <button class="btn" type="button" id="button-addon2">
-                                            <i data-feather="search"></i>
-                                        </button>
-                                    </div>
+                                    <form action="{{ route('search') }}" method="GET">
+                                        <div class="input-group">
+                                            <input type="search" class="form-control"
+                                                placeholder="I'm searching for..." aria-describedby="button-addon2"
+                                                name="q">
+                                            <button class="btn" type="submit" id="button-addon2">
+                                                <i data-feather="search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 
@@ -165,12 +167,13 @@
                                         </a>
                                     </li>
                                     <li class="right-side">
-                                        <a href="{{ route('wishlist') }}" class="btn p-0 position-relative header-wishlist">
+                                        <a href="{{ route('wishlist') }}"
+                                            class="btn p-0 position-relative header-wishlist">
                                             <i data-feather="heart"></i>
                                             @if (total_wishlists() > 0)
-                                            <span class="position-absolute top-0 start-100 translate-middle badge">
-                                                {{ total_wishlists() }}
-                                            </span>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge">
+                                                    {{ total_wishlists() }}
+                                                </span>
                                             @endif
                                         </a>
                                     </li>
@@ -191,30 +194,36 @@
                                                     @forelse (carts() as $cart)
                                                         <li class="product-box-contain">
                                                             <div class="drop-cart">
-                                                                <a href="product-left-thumbnail.html" class="drop-image">
-                                                                    <img src="{{ asset('uploads/product_thumbnails') }}/{{ $cart->relationshiptoproduct->product_thumbnail }}" class="blur-up lazyload" alt="not found">
+                                                                <a href="product-left-thumbnail.html"
+                                                                    class="drop-image">
+                                                                    <img src="{{ asset('uploads/product_thumbnails') }}/{{ $cart->relationshiptoproduct->product_thumbnail }}"
+                                                                        class="blur-up lazyload" alt="not found">
                                                                 </a>
 
                                                                 <div class="drop-contain">
                                                                     <a href="product-left-thumbnail.html">
-                                                                        <h5>{{ $cart->relationshiptoproduct->name }}</h5>
+                                                                        <h5>{{ $cart->relationshiptoproduct->name }}
+                                                                        </h5>
                                                                     </a>
-                                                                    <h6><span>{{ $cart->amount }} x</span> {{ $cart->relationshiptoproduct->discounted_price }}</h6>
+                                                                    <h6><span>{{ $cart->amount }} x</span>
+                                                                        {{ $cart->relationshiptoproduct->discounted_price }}
+                                                                    </h6>
                                                                     @php
-                                                                        $cart_total += ($cart->amount * $cart->relationshiptoproduct->discounted_price);
+                                                                        $cart_total += $cart->amount * $cart->relationshiptoproduct->discounted_price;
                                                                     @endphp
-                                                                    <a href="{{ route('remove.from.cart', $cart->id) }}">
+                                                                    <a
+                                                                        href="{{ route('remove.from.cart', $cart->id) }}">
                                                                         <i class="fa fa-trash text-danger"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                     @empty
-                                                    <li class="product-box-contain">
-                                                        <div class="drop-cart">
-                                                            No Cart Yet
-                                                        </div>
-                                                    </li>
+                                                        <li class="product-box-contain">
+                                                            <div class="drop-cart">
+                                                                No Cart Yet
+                                                            </div>
+                                                        </li>
                                                     @endforelse
 
                                                 </ul>
@@ -225,8 +234,10 @@
                                                 </div>
 
                                                 <div class="button-group">
-                                                    <a href="{{ route('cart') }}" class="btn btn-sm cart-button">View Cart</a>
-                                                    <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color text-white">Checkout</a>
+                                                    <a href="{{ route('cart') }}" class="btn btn-sm cart-button">View
+                                                        Cart</a>
+                                                    <a href="checkout.html"
+                                                        class="btn btn-sm cart-button theme-bg-color text-white">Checkout</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -289,8 +300,9 @@
                                 <ul class="category-list">
                                     @foreach (list_of_categories() as $category)
                                         <li class="onhover-category-list">
-                                            <a href="{{ route('shop', $category->id) }}" class="category-name">
-                                                <img src="{{ asset('uploads/category_thumbnails') }}/{{ $category->category_thumbnail }}" alt="not found">
+                                            <a href="{{ route('shop', $category->slug) }}" class="category-name">
+                                                <img src="{{ asset('uploads/category_thumbnails') }}/{{ $category->category_thumbnail }}"
+                                                    alt="not found">
                                                 <h6>{{ $category->name }}</h6>
                                             </a>
                                         </li>
@@ -380,9 +392,9 @@
     </div>
     <!-- mobile fix menu end -->
     {{-- content start --}}
-        @yield('content')
+    @yield('content')
     {{-- content end --}}
-        <!-- Footer Section Start -->
+    <!-- Footer Section Start -->
     <footer class="section-t-space">
         <div class="container-fluid-lg">
             <div class="service-section">
@@ -603,7 +615,9 @@
                 </div>
 
                 <div class="payment">
-                    <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img style="width:300px;height:auto;" src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-05.png" /></a>
+                    <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img
+                            style="width:300px;height:auto;"
+                            src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-05.png" /></a>
                 </div>
 
                 <div class="social-link">
@@ -637,8 +651,8 @@
     <!-- Footer Section End -->
 
     <!-- Quick View Modal Box Start -->
-    <div class="modal fade theme-modal view-modal" id="view" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade theme-modal view-modal" id="view" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header p-0">
@@ -764,8 +778,8 @@
     <!-- Cookie Bar Box End -->
 
     <!-- Deal Box Modal Start -->
-    <div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header">
@@ -950,5 +964,3 @@
 </body>
 
 </html>
-
-

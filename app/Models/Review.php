@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice_detail extends Model
+class Review extends Model
 {
     use HasFactory;
-    function relationshiptoproduct()
+    function relationshiptouser()
     {
-        return $this->hasOne(Product::class, 'id', 'product_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }
