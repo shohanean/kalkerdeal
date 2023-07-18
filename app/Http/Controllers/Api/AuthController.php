@@ -16,8 +16,28 @@ class AuthController extends Controller
      * @param Request $request
      * @return User
      */
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
+        $validateUser = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required'
+            ]
+        );
+
+        if ($validateUser->fails()) {
+            return response()->json([
+                'iserror' => true,
+                'data' => [],
+                'message' => 'validation error',
+                'errors' => $validateUser->errors()
+            ]);
+        } else {
+            return "now to the insert code and generate a token";
+        }
+
         try {
             //Validated
             $validateUser = Validator::make(
