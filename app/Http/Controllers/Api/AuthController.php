@@ -35,44 +35,16 @@ class AuthController extends Controller
                 'errors' => $validateUser->errors()
             ]);
         } else {
-            return "now to the insert code and generate a token";
-        }
-
-        try {
-            //Validated
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required'
-                ]
-            );
-
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
+            $user = User::create($request->except('_token', 'password') + [
                 'password' => Hash::make($request->password)
             ]);
-
             return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
+                'iserror' => false,
+                'data' => $user,
+                'message' => 'Registration Completed Successfully!',
+                'errors' => [],
                 'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+            ]);
         }
     }
 
