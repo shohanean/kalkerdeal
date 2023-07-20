@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/venokkjs/subdomains/api.venos.store
+    - export DEPLOYPATH=/home/venokkjs/subdomains/api.venos.store/
     - /bin/cp * $DEPLOYPATH
