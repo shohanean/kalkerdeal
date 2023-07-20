@@ -71,6 +71,13 @@ class CategoryController extends Controller
             ]);
         }
     }
+
+    public function update($id, Request $request)
+    {
+
+        return $request->name;
+        return Category::find($id);
+    }
     public function show($id)
     {
         if (Category::where('id', $id)->exists()) {
