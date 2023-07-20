@@ -24,4 +24,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/categories/{id}', [CategoryController::class, 'show']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 });
