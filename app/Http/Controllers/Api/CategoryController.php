@@ -74,9 +74,26 @@ class CategoryController extends Controller
 
     public function update($id, Request $request)
     {
+        if (!Category::where('id', $id)->exists()) {
+            return response()->json([
+                'iserror' => true,
+                'data' => [],
+                'message' => 'The category you are looking for is not there!',
+                'errors' => ['message' => ['The category you are looking for is not there!']]
+            ]);
+        }
+        $category = Category::find($id);
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->slug = Str::slug($request->name);
+        $category->save();
 
-        return $request->name;
-        return Category::find($id);
+        return response()->json([
+            'iserror' => false,
+            'data' => $category->only(['id', 'name', 'description']),
+            'message' => 'Get Updated Category',
+            'errors' => []
+        ]);
     }
     public function show($id)
     {
