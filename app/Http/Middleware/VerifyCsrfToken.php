@@ -18,5 +18,6 @@ class VerifyCsrfToken extends Middleware
         '/ipn',
         '/pay-via-ajax', // only required to run example codes. Please see bellow.
         '/api/v1/auth/login',
+        '/api/v1/auth/register',
     ];
 }
